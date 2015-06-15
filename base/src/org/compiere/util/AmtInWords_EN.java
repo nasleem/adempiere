@@ -35,51 +35,51 @@ public class AmtInWords_EN implements AmtInWords
 
 	/** Thousands plus				*/
 	private static final String[]	majorNames	= {
-		"", 
-		"Thousand-", 
-		"Million-",
-		"Billion-", 
-		"Trillion-", 
-		"Quadrillion-",
-		"Quintillion-"
+		" ", 
+		"THOUSAND ", 
+		"MILLION ",
+		"BILLION ", 
+		"TRILLION ", 
+		"QUADRILLION ",
+		"QUINTILLION "
 	};
 
 	/** Ten to Ninety				*/
 	private static final String[]	tensNames	= { 
-		"", 
-		"Ten", 
-		"Twenty",
-		"Thirty", 
-		"Forty", 
-		"Fifty", 
-		"Sixty", 
-		"Seventy",
-		"Eighty", 
-		"Ninety"
+		" ", 
+		"TEN ", 
+		"TWENTY ",
+		"THIRTY ", 
+		"FORTY ", 
+		"FIFTY ", 
+		"SIXTY ", 
+		"SEVENTY ",
+		"EIGHTY ", 
+		"NINETY "
 	};
 
 	/** numbers to 19				*/
 	private static final String[]	numNames	= { 
-		"", 
-		"One", 
-		"Two",
-		"Three", 
-		"Four", 
-		"Five", 
-		"Six", 
-		"Seven", 
-		"Eight", 
-		"Nine",
-		"Ten", 
-		"Eleven", 
-		"Twelve", 
-		"Thirteen", 
-		"Fourteen", 
-		"Fifteen",
-		"Sixteen", 
-		"Seventeen", 
-		"Eighteen", 
-		"Nineteen"
+		" ", 
+		"ONE ", 
+		"TWO ",
+		"THREE ", 
+		"FOUR ", 
+		"FIVE ", 
+		"SIX ", 
+		"SEVEN ", 
+		"EIGHT ", 
+		"NINE ",
+		"TEN ", 
+		"ELEVEN ", 
+		"TWELVE ", 
+		"THIRTEEN ", 
+		"FOURTEEN ", 
+		"FIFTEEN ",
+		"SIXTEEN ", 
+		"SEVENTEEN ", 
+		"EIGHTEEN ", 
+		"NINETEEN "
 	};
 
 	/**
@@ -105,7 +105,7 @@ public class AmtInWords_EN implements AmtInWords
 		}
 		if (number == 0)
 			return soFar;
-		return numNames[number] + "Hundred-" + soFar;
+		return numNames[number] + "HUNDRED " + soFar;
 	}	//	convertLessThanOneThousand
 
 	/**
@@ -118,13 +118,13 @@ public class AmtInWords_EN implements AmtInWords
 		/* special case */
 		if (number == 0)
 		{
-			return "Zero";
+			return "ZERO";
 		}
 		String prefix = "";
 		if (number < 0)
 		{
 			number = -number;
-			prefix = "Negative ";
+			prefix = "NEGATIVE ";
 		}
 		String soFar = "";
 		int place = 0;
@@ -170,13 +170,24 @@ public class AmtInWords_EN implements AmtInWords
 			if (pos == i) //	we are done
 			{
 				String cents = oldamt.substring (i + 1);
-				sb.append (' ').append (cents).append ("/100");
+				long point = Long.parseLong(cents);
+				sb.append (" AND ");
+				if (point > 1)
+				{
+				sb.append(" CENTS ");
+				}
+				else
+				{
+				sb.append(" CENT ");
+				}				
+				sb.append (convert(point));
 				break;
 			}
 		}
 		return sb.toString ();
 	}	//	getAmtInWords
-
+	
+	
 	/**
 	 * 	Test Print
 	 *	@param amt amount
@@ -202,13 +213,15 @@ public class AmtInWords_EN implements AmtInWords
 		AmtInWords_EN aiw = new AmtInWords_EN();
 	//	aiw.print (".23");	Error
 		aiw.print ("0.23");
-		aiw.print ("1.23");
+		aiw.print ("-1.23");
 		aiw.print ("12.345");
 		aiw.print ("123.45");
 		aiw.print ("1234.56");
 		aiw.print ("12345.78");
-		aiw.print ("123457.89");
-		aiw.print ("1,234,578.90");
+		aiw.print ("123457.00");
+		aiw.print ("1,234,578.01");
+		aiw.print ("1,441,234,578.01");
+		aiw.print ("1,221,441,234,578.01");
 	}	//	main
 	
 }	//	AmtInWords_EN
